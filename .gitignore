@@ -2,3 +2,5 @@ obj
 bin
 appsettings.json
 *.db
+node_modules/bootstrap/dist/js/bootstrap.bundle.js
+node_modules/
