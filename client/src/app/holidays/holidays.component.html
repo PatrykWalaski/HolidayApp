@@ -1,3 +1,48 @@
-<p>
-  holidays works!
-</p>
+<div class="container mt-3">
+  <div class="row">
+    <section class="col-3">
+      <h5 class="text ml-3 my-3">Sorting</h5>
+      <hr>
+      <h5 class="text ml-3 my-3">Duration Of Stay</h5>
+      <hr>
+      <h5 class="text ml-3 my-3">Meal Plan</h5>
+      <hr>
+      <h5 class="text ml-3 my-3">Price</h5>
+      <hr>
+      <h5 class="text ml-3 my-3">Travel Agency</h5>
+    </section>
+    <section class="col-9">
+      <div class="container mt-3">
+        <div *ngFor="let holiday of holidays" class="card shadow-sm mb-2">
+            <div class="row">
+                <div class="col-4">
+                    <div class="holiday-img">
+                        <img src="./assets/images/1920x1080_placeholder.png">
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="row mt-3">
+                        <div class="col-8">
+                            <p class="text-muted">{{holiday.country}}/{{holiday.city}}</p>
+                            <h5>{{holiday.hotelName}}</h5>
+                            <p></p>
+                            <i class="fa fa-bookmark description-icon"></i> <small class="text-muted description"> {{holiday.description}}</small>
+                            <br>
+                            <i class="fa fa-calendar"></i> <small class="text-muted duration"> {{holiday.durationOfStay}} days </small>
+                            <br>
+                            <i class="fa fa-code-fork meal-icon"></i> <small class="text-muted meal"> {{holiday.mealPlan}} </small>
+                            <br>
+                            <i class="fa fa-globe"></i> <small class="text-muted  agency"> {{holiday.travelAgency}} </small> 
+                        </div>
+                        <div class="col-4">
+                            <h4 class="text-success">{{holiday.price | currency}}</h4>
+                            <h6> per person</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
