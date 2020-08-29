@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpParams } from '@angular/common/http';
+import { IHoliday } from '../shared/models/holiday';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class HolidaysService {
 constructor(private http: HttpClient) { }
 
   getHolidays(){
-    return this.http.get<any>(this.baseUrl + 'offers');
+    return this.http.get<IHoliday[]>(this.baseUrl + 'holidays');
   }
 
 }

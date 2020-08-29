@@ -1,6 +1,6 @@
 namespace API.Dtos
 {
-    public class OfferToReturnDto
+    public class HolidayToReturnDto
     {
         public int Id { get; set; }
         public string HotelName { get; set; }

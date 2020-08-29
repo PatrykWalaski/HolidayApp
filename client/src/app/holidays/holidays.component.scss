@@ -23,25 +23,30 @@
 
 .meal {
     position: relative;
-    left: 9px;
+    left: 7px;
 }
 
 .duration {
     position: relative;
-    left: 4px;
+    left: 6px;
 }
 
 .description {
     position: relative;
-    left: 6px;
+    left: 7px;
 }
 
 .meal-icon{
     position: relative;
-    left: 3px;
+    left: 1px;
 }
 
 .description-icon {
+    position: relative;
+    left: 2px;
+}
+
+.fa-calendar-alt {
     position: relative;
     left: 1px;
 }
