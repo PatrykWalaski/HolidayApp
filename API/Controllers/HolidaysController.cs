@@ -78,7 +78,7 @@ namespace API.Controllers
             return Ok(countries);
         }
 
-        [HttpGet("string:Agencies")]
+        [HttpGet("Agencies")]
         public async Task<ActionResult<IReadOnlyList<TravelAgency>>> GetTravelAgencies()
         {
             var travelAgencies = await _unitOfWork.Holiday.GetTravelAgenciesAsync();

@@ -6,8 +6,6 @@ namespace Core.Specifications
 {
     public class HolidaysWithSpecifications : BaseSpecification<Offer>
     {
-        
-
         public HolidaysWithSpecifications(HolidayParams holidayParams) 
         {
             AddInclude(x => x.TravelAgency);
@@ -45,7 +43,7 @@ namespace Core.Specifications
                 AddFilters(x => x.DurationOfStay >= holidayParams.MinDuration);
 
             if(holidayParams.MaxDuration != null)
-                AddFilters(x => x.DurationOfStay >= holidayParams.MaxDuration);
+                AddFilters(x => x.DurationOfStay <= holidayParams.MaxDuration);
 
 
             // Sort Type

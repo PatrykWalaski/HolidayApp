@@ -1,52 +1,19 @@
-.holiday-img {
+.fixline {
     position: relative;
-    width: 250px;
-    height: 225px;
-    overflow: hidden;
+    top: -8px;
 }
 
-.holiday-img img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 105%;
-    width: auto;
-    -webkit-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-}
-
-.agency {
-    position: relative;
-    left: 5px;
-}
-
-.meal {
-    position: relative;
-    left: 7px;
-}
-
-.duration {
-    position: relative;
-    left: 6px;
-}
-
-.description {
-    position: relative;
-    left: 7px;
-}
-
-.meal-icon{
-    position: relative;
-    left: 1px;
-}
-
-.description-icon {
-    position: relative;
-    left: 2px;
-}
-
-.fa-calendar-alt {
-    position: relative;
-    left: 1px;
-}
+.block {
+    display: block;
+    width: 255px;
+    border: none;
+    background-color: #4CAF50;
+    padding: 6px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    position: fixed;
+    top: 47px;
+    opacity: 80%;
+    z-index: 999;
+  }
