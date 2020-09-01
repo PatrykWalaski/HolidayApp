@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Core.Interfaces;
 using Core.Models;
@@ -29,10 +32,12 @@ namespace Infrastructure.Data
 
         public async Task<IReadOnlyList<Offer>> GetHolidaysAsync()
         {
-            return await _context.Offers.Include(x => x.MealPlan)
+            var offers = await _context.Offers.Include(x => x.MealPlan)
                                         .Include(x => x.TravelAgency)
                                         .Include(x => x.Country)
                                         .ToListAsync();
+
+            return offers;
         }
 
         public async Task<IReadOnlyList<MealPlan>> GetMealPlansAsync()

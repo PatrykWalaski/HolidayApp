@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using API.Dtos;
 using AutoMapper;
 using Core.Interfaces;
 using Core.Models;
+using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,37 +22,40 @@ namespace API.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly DataContext _context;
-        public HolidaysController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context)
+        public HolidaysController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> GetAllOffers()
+        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> GetAllOffers([FromQuery]HolidayParams holidayParams)
         {
-            var offers = await _unitOfWork.Holiday.GetHolidaysAsync();
+            var spec = new HolidaysWithSpecifications(holidayParams);
+            
+            var filteredOffers = await _unitOfWork.Holiday.ListWithSpecAsync(spec);
 
-            var offersToReturn = _mapper.Map<IReadOnlyList<Offer>, IReadOnlyList<HolidayToReturnDto>>(offers);
+            var offersToReturn = _mapper.Map<IReadOnlyList<Offer>, IReadOnlyList<HolidayToReturnDto>>(filteredOffers);
 
             return Ok(offersToReturn);
         }
 
         [HttpPost]
-        public async Task<ActionResult<HolidayToReturnDto>> CreateOffer(Offer offer)
+        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> CreateOffer(Offer[] offers)
         {
-            _unitOfWork.Holiday.Add(offer);
+            foreach (var offer in offers)
+            {
+               _unitOfWork.Holiday.Add(offer); 
+            }
 
             var result = await _unitOfWork.Complete();
 
             if (result <= 0)
                 return BadRequest("Offer creation error");
 
-            var createdOffer = await _unitOfWork.Holiday.GetHolidayByIdAsync(offer.Id);
+            var createdOffer = await _unitOfWork.Holiday.GetHolidaysAsync();
 
-            var offerToReturn = _mapper.Map<HolidayToReturnDto>(createdOffer);
+            var offerToReturn = _mapper.Map<IReadOnlyList<HolidayToReturnDto>>(createdOffer);
 
             return Ok(offerToReturn);
         }
