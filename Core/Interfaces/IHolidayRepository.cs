@@ -4,10 +4,10 @@ using Core.Models;
 
 namespace Core.Interfaces
 {
-    public interface IHolidayRepository : IGenericRepository<Offer>
+    public interface IHolidayRepository : IGenericRepository<Holiday>
     {
-         Task<Offer> GetHolidayByIdAsync(int id);
-         Task<IReadOnlyList<Offer>> GetHolidaysAsync();
+         Task<Holiday> GetHolidayByIdAsync(int id);
+         Task<IReadOnlyList<Holiday>> GetHolidaysAsync();
          Task<IReadOnlyList<MealPlan>> GetMealPlansAsync();
          Task<IReadOnlyList<TravelAgency>> GetTravelAgenciesAsync();
          Task<IReadOnlyList<Country>> GetCountriesAsync();

@@ -60,6 +60,11 @@ constructor(private http: HttpClient) { }
       params = params.append('maxDuration', holidayParams.maxDuration.toString());
     }
 
+    if (holidayParams.minStars)
+    {
+      params = params.append('minStars', holidayParams.minStars.toString());
+    }
+
     return this.http.get<IHoliday[]>(this.baseUrl + 'holidays', { observe: 'response', params})
     .pipe( // inside pipe methods we can chain as many rxjs operators as we want
       map(response => { // we are converting the 'response' to a IPagination object from body of the response
@@ -78,6 +83,11 @@ constructor(private http: HttpClient) { }
 
   getMealPlans(){
     return this.http.get<IMealPlan[]>(this.baseUrl + 'holidays/mealPlans');
+  }
+
+  getHolidayById(id: number)
+  {
+    return this.http.get<IHoliday>(this.baseUrl + 'holidays/' + id);
   }
 
 }

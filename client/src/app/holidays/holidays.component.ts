@@ -126,7 +126,9 @@ export class HolidaysComponent implements OnInit {
     //this.getHolidays();
   }
 
-
+  onStarsSelected(stars: number): void {
+    this.holidayParams.minStars = stars;
+  }
 
   getFiltersAsString(filterType: string): string {
     let filtersAsString = '';
@@ -162,6 +164,15 @@ export class HolidaysComponent implements OnInit {
   isCountrySelected(filterName: string): boolean{
     return this.currentlySelectedCountries.includes(filterName);
   }
+
+  getStarArraySize(star: number){
+    return Array(star);
+  }
+
+  getArraySizeForEmptyStars(stars: number){
+    return new Array(5 - stars);
+  }
+
 
   // ----------------- GET ARRAYS FROM DATABASE -----------------
 

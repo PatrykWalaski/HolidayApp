@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class HolidayRepository : GenericRepository<Offer>, IHolidayRepository
+    public class HolidayRepository : GenericRepository<Holiday>, IHolidayRepository
     {
         private readonly DataContext _context;
         public HolidayRepository(DataContext context) : base(context)
@@ -22,17 +22,17 @@ namespace Infrastructure.Data
             return await _context.Countries.ToListAsync();
         }
 
-        public async Task<Offer> GetHolidayByIdAsync(int id)
+        public async Task<Holiday> GetHolidayByIdAsync(int id)
         {
-            return await _context.Offers.Include(x => x.MealPlan)
+            return await _context.Holidays.Include(x => x.MealPlan)
                                         .Include(x => x.TravelAgency)
                                         .Include(x => x.Country)
                                         .FirstAsync(x => x.Id == id);
         }
 
-        public async Task<IReadOnlyList<Offer>> GetHolidaysAsync()
+        public async Task<IReadOnlyList<Holiday>> GetHolidaysAsync()
         {
-            var offers = await _context.Offers.Include(x => x.MealPlan)
+            var offers = await _context.Holidays.Include(x => x.MealPlan)
                                         .Include(x => x.TravelAgency)
                                         .Include(x => x.Country)
                                         .ToListAsync();

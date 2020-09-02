@@ -4,7 +4,7 @@ using Core.Models;
 
 namespace Core.Specifications
 {
-    public class HolidaysWithSpecifications : BaseSpecification<Offer>
+    public class HolidaysWithSpecifications : BaseSpecification<Holiday>
     {
         public HolidaysWithSpecifications(HolidayParams holidayParams) 
         {
@@ -44,6 +44,9 @@ namespace Core.Specifications
 
             if(holidayParams.MaxDuration != null)
                 AddFilters(x => x.DurationOfStay <= holidayParams.MaxDuration);
+            
+            if(holidayParams.MinStars != null)
+                AddFilters(x => x.Stars >= holidayParams.MinStars);
 
 
             // Sort Type

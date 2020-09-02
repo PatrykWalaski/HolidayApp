@@ -1,0 +1,24 @@
+<div class="container">
+    <div><img src="./assets/images/1920x1080_placeholder.png" class="mainPic"></div>
+
+<div class="col-12 center mt-3" *ngIf="holiday != null">
+    <div class="row ">
+        <div class="col-9 ml-4">
+            <p class="text-muted">{{holiday.country}}/{{holiday.city}}</p>
+            <h5>{{holiday.hotelName}}</h5>
+            <p></p>
+            <i class="fa fa-clipboard description-icon"></i> <small class="text-muted description"> {{holiday.description}}</small>
+            <br>
+            <i class="fas fa-calendar-alt"></i> <small class="text-muted duration"> {{holiday.durationOfStay}} days </small>
+            <br>
+            <i class="fas fa-utensils meal-icon"></i> <small class="text-muted meal"> {{handleDisplayName(holiday.mealPlan)}} </small>
+            <br>
+            <i class="fa fa-globe"></i> <small class="text-muted  agency"> {{holiday.travelAgency}} </small> 
+        </div>
+        <div class="col-2">
+            <h4 class="text-success">{{holiday.price | currency}}</h4>
+            <h6> per person</h6>
+        </div>
+    </div>
+</div>
+</div>

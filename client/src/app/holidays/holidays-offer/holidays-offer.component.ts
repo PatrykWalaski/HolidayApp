@@ -32,4 +32,12 @@ export class HolidaysOfferComponent implements OnInit {
           break;
       }
   }
+
+  getArraySizeForStars(stars: number){
+    return new Array(stars);
+  }
+
+  getArraySizeForEmptyStars(stars: number){
+    return new Array(5 - stars);
+  }
 }

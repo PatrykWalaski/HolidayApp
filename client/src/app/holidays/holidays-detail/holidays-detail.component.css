@@ -1,0 +1,11 @@
+.mainPic { 
+   max-width:70%;   
+   margin: auto; 
+   display: block;
+}
+
+.center {
+   margin: auto;
+   width: 70%;
+   padding: 10px;
+ }

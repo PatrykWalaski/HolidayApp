@@ -5,6 +5,7 @@ namespace Core.Models
         public string Agencies { get; set; } = null;
         public string Meals { get; set; } = null;
         public string Countries { get; set; } = null;
+        public int? MinStars { get; set; }
         public int? MinDuration { get; set; } = null;
         public int? MaxDuration { get; set; } = null;
         public decimal? MinPrice { get; set; } = null;

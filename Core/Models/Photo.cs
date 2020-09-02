@@ -8,7 +8,7 @@ namespace Core.Models
         public string PublicID { get; set; }
 
 
-        public Offer Offer  { get; set; }
+        public Holiday Offer  { get; set; }
         public int OfferId { get; set; }
     }
 }

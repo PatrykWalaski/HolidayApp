@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" routerLink="/holidays/{{holiday.id}}">
   <div class="col-4">
       <div class="holiday-img">
           <img src="./assets/images/1920x1080_placeholder.png">
@@ -21,6 +21,10 @@
           <div class="col-4">
               <h4 class="text-success">{{holiday.price | currency}}</h4>
               <h6> per person</h6>
+              <div class="test">
+                <i class="fas fa-star" *ngFor="let i of getArraySizeForStars(holiday.stars)"></i>
+                <i class="far fa-star" *ngFor="let i of getArraySizeForEmptyStars(holiday.stars)"></i>
+              </div>
           </div>
       </div>
   </div>

@@ -35,13 +35,21 @@ namespace API.Controllers
             
             var filteredOffers = await _unitOfWork.Holiday.ListWithSpecAsync(spec);
 
-            var offersToReturn = _mapper.Map<IReadOnlyList<Offer>, IReadOnlyList<HolidayToReturnDto>>(filteredOffers);
+            var offersToReturn = _mapper.Map<IReadOnlyList<Holiday>, IReadOnlyList<HolidayToReturnDto>>(filteredOffers);
 
             return Ok(offersToReturn);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<HolidayToReturnDto>> GetHoliday(int id)
+        {
+            var holidayFromDb = await _unitOfWork.Holiday.GetHolidayByIdAsync(id);
+
+            return _mapper.Map<HolidayToReturnDto>(holidayFromDb);
+        }
+
         [HttpPost]
-        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> CreateOffer(Offer[] offers)
+        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> CreateOffer(Holiday[] offers)
         {
             foreach (var offer in offers)
             {

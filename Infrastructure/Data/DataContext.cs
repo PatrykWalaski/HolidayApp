@@ -10,7 +10,7 @@ namespace Infrastructure.Data
         {
         }
 
-        public DbSet<Offer> Offers { get; set; }
+        public DbSet<Holiday> Holidays { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<MealPlan> MealPlans { get; set; }
         public DbSet<Photo> Photos { get; set; }

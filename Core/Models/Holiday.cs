@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace Core.Models
 {
-    public class Offer
+    public class Holiday
     {
         public int Id { get; set; }
         public string HotelName { get; set; }
+        public int Stars { get; set; }
         public string City { get; set; }
         public string Description { get; set; }
         public int DurationOfStay { get; set; }
