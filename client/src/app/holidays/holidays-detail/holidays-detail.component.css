@@ -9,3 +9,64 @@
    width: 70%;
    padding: 10px;
  }
+
+
+ .holiday-img {
+   position: relative;
+   width: 250px;
+   height: 225px;
+   overflow: hidden;
+}
+
+.holiday-img img {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   height: 105%;
+   width: auto;
+   -webkit-transform: translate(-50%,-50%);
+   -ms-transform: translate(-50%,-50%);
+   transform: translate(-50%,-50%);
+}
+
+.agency {
+   position: relative;
+   left: 5px;
+}
+
+.meal {
+   position: relative;
+   left: 7px;
+}
+
+.duration {
+   position: relative;
+   left: 6px;
+}
+
+.description {
+   position: relative;
+   left: 7px;
+}
+
+.meal-icon{
+   position: relative;
+   left: 1px;
+}
+
+.description-icon {
+   position: relative;
+   left: 2px;
+}
+
+.fa-calendar-alt {
+   position: relative;
+   left: 1px;
+}
+
+.fa-star {
+   color: rgba(255, 194, 62, 0.993);
+   font-size: 20px;
+   position: relative;
+   bottom: -100px;
+}

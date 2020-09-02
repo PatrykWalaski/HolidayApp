@@ -1,6 +1,7 @@
 <div class="container mt-3">
   <div class="row">
     <section class="col-3">
+    <button type="button" class="btn btn-primary block mt-3" (click)="onSearch(fromPrice,toPrice,fromDuration,toDuration)"> Search </button>
       <h5 class="text ml-3 my-3">Sorting</h5>    
         <select class="custom-select" (change)="onSortSelected($event.target.value)">
         <option *ngFor="let sort of sortOptions" [value]="sort.value">
@@ -15,6 +16,16 @@
         </div>
         <div class="col-6">
           <input class="form-control" type="text" placeholder="To" #toPrice>
+        </div>
+      </div>
+      <hr>
+      <h5 class="text ml-3 my-3">Duration Of Stay</h5>
+      <div class="form-group row justify-content-center">
+        <div class="col-6">
+           <input class="form-control" type="text" placeholder="From" #fromDuration> 
+        </div>
+        <div class="col-6">
+          <input class="form-control" type="text" placeholder="To" #toDuration>
         </div>
       </div>
       <hr>
@@ -35,16 +46,7 @@
         </li>
       </ul>
       <hr>
-      <h5 class="text ml-3 my-3">Duration Of Stay</h5>
-      <div class="form-group row justify-content-center">
-        <div class="col-6">
-           <input class="form-control" type="text" placeholder="From" #fromDuration> 
-        </div>
-        <div class="col-6">
-          <input class="form-control" type="text" placeholder="To" #toDuration>
-        </div>
-      </div>
-      <hr>
+      
       <h5 class="text ml-3 my-3">Country</h5>
       <ul class="list-group">
         <li
@@ -83,7 +85,6 @@
           {{ agency.name }}
         </li>
       </ul>
-    <button type="button" class="btn btn-primary block mt-3" (click)="onSearch(fromPrice,toPrice,fromDuration,toDuration)"> Search </button>
     </section>
     <section class="col-9">
       <div class="container mt-3">

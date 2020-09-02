@@ -1,3 +1,41 @@
-<p>
-  manage works!
-</p>
+<ng-container>
+  <div class="container mt-2">
+    <div class="col-12 py-5 mb-1">
+      <table class="table table-hover" style="cursor: pointer;">
+        <thead>
+          <tr class="table-info">
+            <th scope="col" class="border-0">
+              <div class="p-2 px-3 text-uppercase">Id</div>
+            </th>
+            <th scope="col" class="border-0">
+              <div class="py-2 text-uppercase">Hotel Name</div>
+            </th>
+            <th scope="col" class="border-0">
+              <div class="py-2 text-uppercase">Country</div>
+            </th>
+            <th scope="col" class="border-0">
+              <div class="py-2 text-uppercase">City</div>
+            </th>
+            <th scope="col" class="border-0">
+              <div class="py-2 text-uppercase">Price</div>
+            </th>
+            <th scope="col" class="border-0" style="width:60px" ></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let holiday of holidays" routerLink="/manage/holiday/{{holiday.id}}">
+            <td class="align-middle"> <Strong># {{ holiday.id }}</Strong></td>
+            <td class="align-middle"> {{ holiday.hotelName }}</td>
+            <td class="align-middle"> {{ holiday.country }}</td>
+            <td class="align-middle"> {{ holiday.city }}</td>
+            <td class="align-middle"> {{ holiday.price | currency }}</td>
+            <td>
+              <button type="button" class="btn btn-danger"> Delete </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
