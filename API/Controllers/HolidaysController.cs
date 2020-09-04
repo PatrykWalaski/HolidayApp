@@ -48,6 +48,19 @@ namespace API.Controllers
             return _mapper.Map<HolidayToReturnDto>(holidayFromDb);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteHoliday(int id)
+        {
+            _unitOfWork.Holiday.Delete(id);
+
+            var result = await _unitOfWork.Complete();
+
+            if(result <= 0)
+                return BadRequest("Error while deleting.");
+
+            return Redirect("http://localhost:4200/manage");
+        }
+
         [HttpPost]
         public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> CreateOffer(Holiday[] offers)
         {

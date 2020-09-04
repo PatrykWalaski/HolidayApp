@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ManageComponent } from './manage.component';
 import { ManageRoutingModule } from '../manage/manage-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { ManageHolidayComponent } from './manage-holiday/manage-holiday.component';
 
 @NgModule({
   imports: [
@@ -10,6 +11,6 @@ import { SharedModule } from '../shared/shared.module';
     ManageRoutingModule,
     SharedModule
   ],
-  declarations: [ManageComponent]
+  declarations: [ManageComponent, ManageHolidayComponent]
 })
 export class ManageModule { }

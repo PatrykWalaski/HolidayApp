@@ -1,1 +1,136 @@
-<p> It works! </p>
+<form [formGroup]="holidayForm" class="container">
+  Value: {{holidayForm.value | json}}
+  <br>
+  Value: {{holidayForm.controls['hotelName'].valid | json}}
+  <fieldset>
+    <legend>Hotel</legend>
+
+    <div class="form-group has-danger">
+      <label>Name</label>
+      <input type="text" 
+      class="form-control" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['hotelName'].valid && holidayForm.controls['hotelName'].touched)}"
+      formControlName="hotelName" 
+      placeholder="Hotel Name">
+      <div class="invalid-feedback">
+        Name is required.
+      </div>
+    </div>
+    
+    <div class="form-group has-danger">
+      <label>Description</label>
+      <input type="text" 
+      class="form-control" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['description'].valid && holidayForm.controls['description'].touched)}"
+      formControlName="description" 
+      placeholder="Description">
+      <div class="invalid-feedback">
+        Description is required.
+      </div>
+    </div>
+
+    <div class="form-group has-danger">
+      <label>City</label>
+      <input type="text" 
+      class="form-control" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['city'].valid && holidayForm.controls['city'].touched)}"
+      formControlName="city" 
+      placeholder="City Name">
+      <div class="invalid-feedback">
+        City is required.
+      </div>
+    </div>
+
+    <div class="form-group has-danger">
+      <label>Duration Of Stay</label>
+      <input type="number" 
+      class="form-control" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['durationOfStay'].valid && holidayForm.controls['durationOfStay'].touched)}"
+      formControlName="durationOfStay" 
+      placeholder="Duration in days">
+      <div class="invalid-feedback">
+        Duration is required.
+        <br>
+        Maximum days is 30.
+      </div>
+    </div>
+
+    <div class="form-group has-danger">
+      <label>Price</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="number" class="form-control" 
+          formControlName="price" 
+          [ngClass]="{'is-invalid' : (!holidayForm.controls['price'].valid && holidayForm.controls['price'].touched)}"
+          aria-label="Amount (to the nearest dollar)">
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+          <div class="invalid-feedback">
+            Price is required.
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label>Stars</label>
+      <select class="form-control" 
+      formControlName="stars"
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['stars'].valid && holidayForm.controls['stars'].touched)}"
+      >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+      <div class="invalid-feedback">
+        Stars are required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Country</label>
+      <select class="form-control" 
+      formControlName="countryId" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['countryId'].valid && holidayForm.controls['countryId'].touched)}"
+      >
+        <option *ngFor="let item of countries" [value]="item.id">{{item.name}}</option>
+      </select>
+      <div class="invalid-feedback">
+        Country is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Meal Plan</label>
+      <select class="form-control" 
+      formControlName="mealPlanId" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['mealPlanId'].valid && holidayForm.controls['mealPlanId'].touched)}"
+
+      >
+        <option *ngFor="let item of mealPlans" [value]="item.id">{{item.name}}</option>
+      </select>
+      <div class="invalid-feedback">
+        Meal plan is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Travel Agency</label>
+      <select class="form-control" 
+      formControlName="travelAgencyId" 
+      [ngClass]="{'is-invalid' : (!holidayForm.controls['travelAgencyId'].valid && holidayForm.controls['travelAgencyId'].touched)}"
+      >
+        <option *ngFor="let item of travelAgencies" [value]="item.id">{{item.name}}</option>
+      </select>
+      <div class="invalid-feedback">
+        Travel agency is required.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-5" [disabled]="!holidayForm.valid" (click)="submitForm()">Submit</button>
+  </fieldset>
+</form>
