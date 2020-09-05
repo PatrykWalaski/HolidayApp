@@ -123,7 +123,7 @@ export class HolidaysComponent implements OnInit {
   onSortSelected(sort: string): void {
     console.log(sort);
     this.holidayParams.sortSelected = sort;
-    //this.getHolidays();
+    this.getHolidays();
   }
 
   onStarsSelected(stars: number): void {

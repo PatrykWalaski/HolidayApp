@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
 using AutoMapper;
@@ -9,8 +6,8 @@ using Core.Interfaces;
 using Core.Models;
 using Core.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -58,9 +55,38 @@ namespace API.Controllers
             if(result <= 0)
                 return BadRequest("Error while deleting.");
 
-            return Redirect("http://localhost:4200/manage");
+            return Ok();
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateHoliday(int id,Holiday holidayValues)
+        {
+            var holidayFromDb = await _unitOfWork.Holiday.GetHolidayByIdAsync(id);
+
+            if(holidayFromDb != null)
+            {
+                holidayFromDb.HotelName = holidayValues.HotelName;
+                holidayFromDb.Description = holidayValues.Description;
+                holidayFromDb.Price = holidayValues.Price;
+                holidayFromDb.City = holidayValues.City;
+                holidayFromDb.MealPlanId = holidayValues.MealPlanId;
+                holidayFromDb.TravelAgencyId = holidayValues.TravelAgencyId;
+                holidayFromDb.CountryId = holidayValues.CountryId;
+                holidayFromDb.DurationOfStay = holidayValues.DurationOfStay;
+                holidayFromDb.Stars = holidayValues.Stars;
+            }
+
+            _unitOfWork.Holiday.Update(holidayFromDb);
+
+            var result = await _unitOfWork.Complete();
+
+            if(result <= 0)
+                return BadRequest("Error while updating.");
+
+            return Ok();
+
+        }
+        
         [HttpPost]
         public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> CreateOffer(Holiday[] offers)
         {

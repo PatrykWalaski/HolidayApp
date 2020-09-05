@@ -7,6 +7,7 @@ import { IMealPlan } from 'src/app/shared/models/mealPlan';
 import { ITravelAgency } from 'src/app/shared/models/travelAgency';
 import { ManageService } from '../manage.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -21,8 +22,11 @@ export class ManageHolidayComponent implements OnInit {
   mealPlans: IMealPlan[];
   travelAgencies: ITravelAgency[];
 
+  holiday: IHoliday;
+  id: number;
+
   constructor(private fb: FormBuilder, private manageService: ManageService, private router: Router, 
-              private activateRoute: ActivatedRoute) {
+              private activateRoute: ActivatedRoute, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -48,15 +52,31 @@ export class ManageHolidayComponent implements OnInit {
 
     this.manageService.getTravelAgencies().subscribe(response => {
       this.travelAgencies = response;
+      this.getHolidayFormValues();
+    });
+
+  }
+
+
+  updateHoliday(): void{
+    console.log('click');
+    this.manageService.updateHoliday(this.id, this.convertToMatchingTypes()).subscribe( response => {
+      console.log(response);
+      this.toastr.success('Offer updated.');
+      this.router.navigateByUrl('/manage');
+    }, error => {
+      this.toastr.error('Failed while updating an offer.');
+      console.log(error);
     });
   }
 
-  submitForm(): void{
-    console.log(this.holidayForm.value);
+  createHoliday(): void{
     this.manageService.createHoliday(new Array(this.convertToMatchingTypes())).subscribe(response => {
-      console.log('TEST');
+      console.log(this.convertToMatchingTypes());
+      this.toastr.success('Offer created.');
       this.router.navigateByUrl('/manage');
     }, error => {
+      this.toastr.error('Failed while creating an offer.');
       console.log(error);
     });
   }
@@ -74,4 +94,35 @@ export class ManageHolidayComponent implements OnInit {
         countryId:  +this.holidayForm.get('countryId').value
       };
   }
+
+  // [value]="!holiday.hotelName != null ? holiday.hotelName : ''"
+
+  getHolidayFormValues(): void{
+    this.id = +this.activateRoute.snapshot.paramMap.get('id');
+    if (this.id > 0){
+      this.manageService.getHoliday(this.id).subscribe(response => {
+        this.holiday = response;
+        console.log(this.holiday);
+        this.patchValues();
+      }, error => {
+        console.log(error);
+      });
+    }
+  }
+
+  patchValues(): void{
+    this.holidayForm.setValue({
+        hotelName: this.holiday.hotelName,
+        description: this.holiday.description,
+        city: this.holiday.city,
+        durationOfStay: this.holiday.durationOfStay,
+        stars: this.holiday.stars,
+        price: this.holiday.price,
+        mealPlanId: this.mealPlans.find(x => this.holiday.mealPlan).id,
+        travelAgencyId: this.travelAgencies.find(x => this.holiday.travelAgency).id,
+        countryId:  this.countries.find(x => this.holiday.country).id,
+    });
+  }
+
+
 }

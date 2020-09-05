@@ -6,6 +6,7 @@ import { ManageHolidayComponent } from './manage-holiday/manage-holiday.componen
 
 const routes: Routes = [
   {path: '', component: ManageComponent},
+  {path: 'holiday', component: ManageHolidayComponent},
   {path: 'holiday/:id', component: ManageHolidayComponent}
 ];
 

@@ -1,6 +1,7 @@
 <ng-container>
-  <div class="container mt-2">
-    <div class="col-12 py-5 mb-1">
+  <div class="container mt-1">
+    <div class="col-12 py-1 mb-1">
+      <button type="button" class="btn btn-success fix mb-2" routerLink="/manage/holiday"> CREATE NEW OFFER </button>
       <table class="table table-hover" style="cursor: pointer;">
         <thead>
           <tr class="table-info">
@@ -29,10 +30,7 @@
             <td class="align-middle"> {{ holiday.country }}</td>
             <td class="align-middle"> {{ holiday.city }}</td>
             <td class="align-middle"> {{ holiday.price | currency }}</td>
-            <td>
-              <button type="button" class="btn btn-danger"> Delete </button>
-            </td>
-
+            <td><button type="button" class="btn btn-danger fix" (click)="deleteHoliday(holiday.id)"> DELETE </button></td>
           </tr>
         </tbody>
       </table>

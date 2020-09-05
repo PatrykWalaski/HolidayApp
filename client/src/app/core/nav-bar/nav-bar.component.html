@@ -11,6 +11,9 @@
         <li class="divider dropdown-divider"></li>
         <li role="menuitem"><a class="dropdown-item" routerLink="/manage">Manage</a></li>
       </ul>
+      <form class="form-inline">
+        <button class="btn btn-secondary" routerLink="account/login"><i class="fa fa-user"></i></button>
+      </form>
     </div>
   </button>
   
@@ -19,13 +22,27 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/holidays" routerLinkActive="active">Holidays</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="currentUser$ | async" class="nav-item">
         <a class="nav-link" routerLink="/manage" routerLinkActive="active">Manage</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-    </form>
+
+    <div class="btn-group" dropdown>
+      <h5 class="mr-2 form-inline" *ngIf="currentUser$ | async">{{(currentUser$ | async).email}}</h5>
+      <button id="button-animated" dropdownToggle type="button" class="btn btn-secondary"
+              aria-controls="dropdown-animated">
+              <i class="fa fa-user"></i>
+      </button>
+      <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-animated">
+        <ng-container >
+          <li role="menuitem"><a class="dropdown-item" routerLink="/account/login">Login</a></li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem"><a class="dropdown-item" routerLink="/account/register">Register</a></li>
+        </ng-container>
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem"><a class="dropdown-item" (click)="logout()" >Logout</a></li>
+      </ul>
+
+    </div>
   </div>
 </nav>

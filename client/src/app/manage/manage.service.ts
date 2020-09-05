@@ -40,4 +40,17 @@ createHoliday(offer: any){
       console.log("test");
     }));
 }
+
+updateHoliday(id: number, offer: any){
+  console.log(id);
+  console.log(offer);
+  return this.http.put(this.baseUrl + 'holidays/' + id, offer).pipe(
+    map((user: IHoliday) => {
+      console.log("test");
+    }));
+}
+
+deleteHoliday(id: number){
+  return this.http.delete(this.baseUrl + 'holidays/' + id);
+}
 }
