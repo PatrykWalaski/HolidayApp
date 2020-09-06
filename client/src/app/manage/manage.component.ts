@@ -14,6 +14,9 @@ export class ManageComponent implements OnInit {
   holiday: IHoliday;
   headElements = ['Id', 'Hotel Name', 'Country', 'City', 'Price'];
 
+  pageNumber = 1;
+  pageSize = 20;
+  totalCount: number;
   constructor(private manageService: ManageService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -21,11 +24,19 @@ export class ManageComponent implements OnInit {
   }
 
   loadHolidays(){
-    this.manageService.getHolidays().subscribe( response => {
-      this.holidays = response;
+    this.manageService.getHolidays(this.pageNumber, this.pageSize).subscribe( response => {
+      this.holidays = response.data;
+      this.totalCount = response.count;
+      this.pageNumber = response.pageIndex;
+      this.pageSize = response.pageSize;
     }, error => {
       console.log(error);
     });
+  }
+
+  onPageChanged(event: any){
+    this.pageNumber = event;
+    this.loadHolidays();
   }
 
   deleteHoliday(id: number){  

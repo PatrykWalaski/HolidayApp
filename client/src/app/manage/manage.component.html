@@ -34,6 +34,13 @@
           </tr>
         </tbody>
       </table>
+      <div class="d-flex justify-content-center" *ngIf="totalCount && this.totalCount > 0 && this.totalCount > this.pageSize">
+        <app-pager
+            [totalCount]="totalCount"
+            [pageSize]="this.pageSize"
+            (pageChanged)="onPageChanged($event)">
+        </app-pager>
+      </div>
     </div>
   </div>
 </ng-container>

@@ -53,6 +53,11 @@ namespace Infrastructure.Data
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
         }
 
+        public async Task<int> CountAsync(IBaseSpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
+
         public void Update(T entity)
         {
             _context.Set<T>().Attach(entity);

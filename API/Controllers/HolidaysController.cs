@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Helpers;
 using AutoMapper;
 using Core.Interfaces;
 using Core.Models;
@@ -28,13 +29,15 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> GetAllOffers([FromQuery]HolidayParams holidayParams)
         {
-            var spec = new HolidaysWithSpecifications(holidayParams);
-            
+            var spec = new HolidaysWithSpecifications(holidayParams, false);
+            var countSpec = new HolidaysWithSpecifications(holidayParams, true);
+
             var filteredOffers = await _unitOfWork.Holiday.ListWithSpecAsync(spec);
+            var filteredOffersCount = await _unitOfWork.Holiday.CountAsync(countSpec);
 
             var offersToReturn = _mapper.Map<IReadOnlyList<Holiday>, IReadOnlyList<HolidayToReturnDto>>(filteredOffers);
 
-            return Ok(offersToReturn);
+            return Ok(new Pagination<HolidayToReturnDto>(holidayParams.PageIndex, holidayParams.PageSize, filteredOffersCount, offersToReturn));
         }
 
         [HttpGet("{id}")]

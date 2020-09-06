@@ -4,6 +4,7 @@ import { IHoliday } from '../shared/models/holiday';
 import { HolidayParams } from '../shared/models/holidayParams';
 import { map } from 'rxjs/operators';
 import { ICountry } from '../shared/models/country';
+import { IPagination } from '../shared/models/pagination';
 import { IMealPlan } from '../shared/models/mealPlan';
 import { ITravelAgency } from '../shared/models/travelAgency';
 
@@ -65,7 +66,10 @@ constructor(private http: HttpClient) { }
       params = params.append('minStars', holidayParams.minStars.toString());
     }
 
-    return this.http.get<IHoliday[]>(this.baseUrl + 'holidays', { observe: 'response', params})
+    params = params.append('pageIndex', holidayParams.pageNumber.toString());
+    params = params.append('pageSize', holidayParams.pageSize.toString());
+
+    return this.http.get<IPagination>(this.baseUrl + 'holidays', { observe: 'response', params})
     .pipe( // inside pipe methods we can chain as many rxjs operators as we want
       map(response => { // we are converting the 'response' to a IPagination object from body of the response
         return response.body;

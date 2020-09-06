@@ -34,5 +34,18 @@ namespace Core.Specifications
         {
             OrderByDescending = orderByDescExpression;
         }
+
+        // paging 
+
+        public int Take {get; private set;}
+        public int Skip {get; private set;}
+        public bool IsPagingEnabled {get; private set;}
+
+        protected void ApplyPaging(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnabled = true;
+        }
     }
 }

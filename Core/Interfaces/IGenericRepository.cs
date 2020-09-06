@@ -9,6 +9,7 @@ namespace Core.Interfaces
          Task<T> GetByIdAsync(int id);
          Task<IReadOnlyList<T>> ListAllAsync();
          Task<IReadOnlyList<T>> ListWithSpecAsync(IBaseSpecification<T> spec);
+         Task<int> CountAsync(IBaseSpecification<T> spec);
          void Add(T entity);
          void Update(T entity);
          void Delete(T entity);

@@ -22,6 +22,8 @@ export class HolidaysComponent implements OnInit {
   currentlySelectedAgencies = [];
   currentlySelectedCountries = [];
 
+
+  totalCount: number;
   holidayParams = new HolidayParams();
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
@@ -42,13 +44,20 @@ export class HolidaysComponent implements OnInit {
   getHolidays(): void {
     this.holidaysService.getHolidays(this.holidayParams).subscribe(
       (response) => {
-        this.holidays = response;
-        console.log(this.holidays);
+        this.holidays = response.data;
+        this.totalCount = response.count;
+        this.holidayParams.pageNumber = response.pageIndex;
+        this.holidayParams.pageSize = response.pageSize;
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  onPageChanged(event: any){
+    this.holidayParams.pageNumber = event;
+    this.getHolidays();
   }
 
   onSearch(minPrice, maxPrice, minDuration, maxDuration)
@@ -57,6 +66,7 @@ export class HolidaysComponent implements OnInit {
       this.holidayParams.maxPrice = maxPrice.value;
       this.holidayParams.minDuration = minDuration.value;
       this.holidayParams.maxDuration = maxDuration.value;
+      this.holidayParams.pageNumber = 1;
       this.getHolidays();
   }
 
@@ -77,6 +87,7 @@ export class HolidaysComponent implements OnInit {
 
     this.currentlySelectedMeals.push(mealPlan);
     this.holidayParams.meals = this.getFiltersAsString('meals');
+    this.holidayParams.pageNumber = 1;
     //this.getHolidays();
   }
 
@@ -97,6 +108,7 @@ export class HolidaysComponent implements OnInit {
 
     this.currentlySelectedCountries.push(country);
     this.holidayParams.countries = this.getFiltersAsString('countries');
+    this.holidayParams.pageNumber = 1;
     //this.getHolidays();
   }
 
@@ -117,6 +129,7 @@ export class HolidaysComponent implements OnInit {
 
     this.currentlySelectedAgencies.push(travelAgency);
     this.holidayParams.agencies = this.getFiltersAsString('agencies');
+    this.holidayParams.pageNumber = 1;
     //this.getHolidays();
   }
 

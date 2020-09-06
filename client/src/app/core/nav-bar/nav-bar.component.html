@@ -28,7 +28,7 @@
     </ul>
 
     <div class="btn-group" dropdown>
-      <h5 class="mr-2 form-inline" *ngIf="currentUser$ | async">{{(currentUser$ | async).email}}</h5>
+      <h5 class="mr-2 mt-2" *ngIf="currentUser$ | async">{{(currentUser$ | async).email}}</h5>
       <button id="button-animated" dropdownToggle type="button" class="btn btn-secondary"
               aria-controls="dropdown-animated">
               <i class="fa fa-user"></i>

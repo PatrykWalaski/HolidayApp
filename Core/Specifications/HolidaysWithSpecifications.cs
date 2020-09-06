@@ -6,12 +6,16 @@ namespace Core.Specifications
 {
     public class HolidaysWithSpecifications : BaseSpecification<Holiday>
     {
-        public HolidaysWithSpecifications(HolidayParams holidayParams) 
+        public HolidaysWithSpecifications(HolidayParams holidayParams, bool isForCount) 
         {
-            AddInclude(x => x.TravelAgency);
-            AddInclude(x => x.MealPlan);
-            AddInclude(x => x.Country);
-
+            if(!isForCount)
+            {
+                AddInclude(x => x.TravelAgency);
+                AddInclude(x => x.MealPlan);
+                AddInclude(x => x.Country);
+                ApplyPaging(holidayParams.PageSize * (holidayParams.PageIndex - 1), holidayParams.PageSize);
+            }
+            
             //filtered by names of Countries/Agencies/Meals
 
             string[] countriesNames  = null;
@@ -51,6 +55,8 @@ namespace Core.Specifications
 
             // Sort Type
 
+        if(!isForCount)
+        {
             if(!string.IsNullOrEmpty(holidayParams.Sort))
             {
                 switch (holidayParams.Sort)
@@ -72,6 +78,7 @@ namespace Core.Specifications
                         break;
                 }
             }
+        }
         }        
     }
 }

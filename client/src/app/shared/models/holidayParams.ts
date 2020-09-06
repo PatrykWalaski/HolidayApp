@@ -8,4 +8,6 @@ export class HolidayParams {
     minDuration: number;
     maxDuration: number;
     sortSelected: string;
+    pageNumber = 1;
+    pageSize = 4;
 }
