@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { IHoliday } from '../shared/models/holiday';
 import { ICountry } from '../shared/models/country';
 import { ITravelAgency } from '../shared/models/travelAgency';
@@ -63,5 +63,12 @@ updateHoliday(id: number, offer: any){
 
 deleteHoliday(id: number){
   return this.http.delete(this.baseUrl + 'holidays/' + id);
+}
+
+setTokenHeader(){
+  let headers = new HttpHeaders();
+  headers = headers.set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+  return headers;
 }
 }

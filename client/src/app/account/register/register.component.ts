@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { timer, of, ReplaySubject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { IUser } from 'src/app/shared/models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent implements OnInit {
 
   
   
-  constructor(private fb: FormBuilder, private accountService: AccountService, private router: Router) { }
+  constructor(private fb: FormBuilder, private accountService: AccountService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.createRegisterForm();
@@ -34,8 +35,11 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.accountService.register(this.registerForm.value).subscribe(response => {
-      this.router.navigateByUrl('/manage');
+      this.router.navigateByUrl('/holidays');
+      this.toastr.success('Logged in.');
+      this.toastr.success('Account has been created.');
     }, error => {
+      this.toastr.error(error.error);
       console.log(error);
     });
   }

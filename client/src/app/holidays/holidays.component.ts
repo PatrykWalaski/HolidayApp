@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HolidaysService } from './holidays.service';
 import { IHoliday } from '../shared/models/holiday';
 import { ITravelAgency } from '../shared/models/travelAgency';
@@ -7,6 +7,7 @@ import { ICountry } from '../shared/models/country';
 
 import { HolidayParams } from '../shared/models/holidayParams';
 import { TimeoutError } from 'rxjs';
+import { PagerComponent } from '../shared/components/pager/pager.component';
 
 @Component({
   selector: 'app-holidays',
@@ -21,7 +22,7 @@ export class HolidaysComponent implements OnInit {
   currentlySelectedMeals = [];
   currentlySelectedAgencies = [];
   currentlySelectedCountries = [];
-
+  @ViewChild(PagerComponent) child: PagerComponent;
 
   totalCount: number;
   holidayParams = new HolidayParams();
@@ -67,6 +68,10 @@ export class HolidaysComponent implements OnInit {
       this.holidayParams.minDuration = minDuration.value;
       this.holidayParams.maxDuration = maxDuration.value;
       this.holidayParams.pageNumber = 1;
+      if (this.child)
+      {
+        this.child.setPage(1);
+      }
       this.getHolidays();
   }
 

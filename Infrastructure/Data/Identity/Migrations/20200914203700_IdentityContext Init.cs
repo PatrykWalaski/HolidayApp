@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Infrastructure.Data.Migrations
+namespace Infrastructure.Data.Identity.Migrations
 {
-    public partial class IdentityInit : Migration
+    public partial class IdentityContextInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,45 +44,6 @@ namespace Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Country",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Country", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MealPlan",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MealPlan", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TravelAgency",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TravelAgency", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,67 +152,6 @@ namespace Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Holiday",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HotelName = table.Column<string>(maxLength: 100, nullable: false),
-                    Stars = table.Column<int>(nullable: false),
-                    City = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(maxLength: 180, nullable: false),
-                    DurationOfStay = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CountryId = table.Column<int>(nullable: false),
-                    MealPlanId = table.Column<int>(nullable: false),
-                    TravelAgencyId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Holiday", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Holiday_Country_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Country",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Holiday_MealPlan_MealPlanId",
-                        column: x => x.MealPlanId,
-                        principalTable: "MealPlan",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Holiday_TravelAgency_TravelAgencyId",
-                        column: x => x.TravelAgencyId,
-                        principalTable: "TravelAgency",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Photo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PhotoUrl = table.Column<string>(nullable: true),
-                    isMain = table.Column<bool>(nullable: false),
-                    PublicID = table.Column<string>(nullable: true),
-                    OfferId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Photo", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Photo_Holiday_OfferId",
-                        column: x => x.OfferId,
-                        principalTable: "Holiday",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -290,26 +190,6 @@ namespace Infrastructure.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Holiday_CountryId",
-                table: "Holiday",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Holiday_MealPlanId",
-                table: "Holiday",
-                column: "MealPlanId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Holiday_TravelAgencyId",
-                table: "Holiday",
-                column: "TravelAgencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Photo_OfferId",
-                table: "Photo",
-                column: "OfferId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -330,25 +210,10 @@ namespace Infrastructure.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Photo");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Holiday");
-
-            migrationBuilder.DropTable(
-                name: "Country");
-
-            migrationBuilder.DropTable(
-                name: "MealPlan");
-
-            migrationBuilder.DropTable(
-                name: "TravelAgency");
         }
     }
 }

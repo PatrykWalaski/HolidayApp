@@ -17,7 +17,6 @@ export class HolidaysService{
 constructor(private http: HttpClient) { }
 
  
-
   getHolidays(holidayParams: HolidayParams){
     let params = new HttpParams();
 

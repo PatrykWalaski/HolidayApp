@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class OfferInitial : Migration
+    public partial class DataContextInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,12 +46,13 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Offers",
+                name: "Holidays",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelName = table.Column<string>(maxLength: 100, nullable: false),
+                    Stars = table.Column<int>(nullable: false),
                     City = table.Column<string>(nullable: false),
                     Description = table.Column<string>(maxLength: 180, nullable: false),
                     DurationOfStay = table.Column<int>(nullable: false),
@@ -62,21 +63,21 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Offers_Countries_CountryId",
+                        name: "FK_Holidays_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Offers_MealPlans_MealPlanId",
+                        name: "FK_Holidays_MealPlans_MealPlanId",
                         column: x => x.MealPlanId,
                         principalTable: "MealPlans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Offers_TravelAgencies_TravelAgencyId",
+                        name: "FK_Holidays_TravelAgencies_TravelAgencyId",
                         column: x => x.TravelAgencyId,
                         principalTable: "TravelAgencies",
                         principalColumn: "Id",
@@ -98,26 +99,26 @@ namespace Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photos_Offers_OfferId",
+                        name: "FK_Photos_Holidays_OfferId",
                         column: x => x.OfferId,
-                        principalTable: "Offers",
+                        principalTable: "Holidays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_CountryId",
-                table: "Offers",
+                name: "IX_Holidays_CountryId",
+                table: "Holidays",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_MealPlanId",
-                table: "Offers",
+                name: "IX_Holidays_MealPlanId",
+                table: "Holidays",
                 column: "MealPlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_TravelAgencyId",
-                table: "Offers",
+                name: "IX_Holidays_TravelAgencyId",
+                table: "Holidays",
                 column: "TravelAgencyId");
 
             migrationBuilder.CreateIndex(
@@ -132,7 +133,7 @@ namespace Infrastructure.Data.Migrations
                 name: "Photos");
 
             migrationBuilder.DropTable(
-                name: "Offers");
+                name: "Holidays");
 
             migrationBuilder.DropTable(
                 name: "Countries");

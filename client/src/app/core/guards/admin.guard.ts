@@ -7,18 +7,17 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private accountService: AccountService, private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
     return this.accountService.currentUser$.pipe(
-      map(auth => {
-        if (auth.isAdmin) {
+      map(user => {
+        if (user && user.isAdmin) {
           return true;
         }
-        this.router.navigate(['account/login'], {queryParams: {returnUrl: 'http://localhost:5001/' + state.url}});
       })
     );
   }

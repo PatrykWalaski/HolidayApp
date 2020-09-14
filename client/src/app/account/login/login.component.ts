@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe( response => {
-      this.router.navigateByUrl('/manage');
+      this.router.navigateByUrl('/holidays');
       this.toastr.success('Logged in succesfully');
     }, error => {
       this.toastr.error('Wrong password or email');

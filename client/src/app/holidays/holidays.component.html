@@ -1,8 +1,8 @@
 <div class="container mt-3">
   <div class="row">
     <section class="col-3">
-    <button type="button" class="btn btn-primary block mt-3" (click)="onSearch(fromPrice,toPrice,fromDuration,toDuration)"> Search </button>
-      <h5 class="text ml-3 my-3">Sorting</h5>    
+    <button type="button" class="btn btn-primary block mt-3" (click)="onSearch(fromPrice,toPrice,fromDuration,toDuration)" > Search </button>
+      <h5 class="text ml-3 my-3" >Sorting</h5>    
         <select class="custom-select" (change)="onSortSelected($event.target.value)">
         <option *ngFor="let sort of sortOptions" [value]="sort.value">
           {{ sort.name }}
@@ -107,12 +107,16 @@
             <app-holidays-offer [holiday]="holiday"></app-holidays-offer>
         </div>
 
-        <div class="d-flex justify-content-center" *ngIf="totalCount && this.totalCount > 0 && this.totalCount > this.holidayParams.pageSize">
-          <app-pager
+        <div  class="d-flex justify-content-center" *ngIf="totalCount && this.totalCount > 0 && this.totalCount > this.holidayParams.pageSize">
+          <app-pager 
               [totalCount]="totalCount"
               [pageSize]="this.holidayParams.pageSize"
-              (pageChanged)="onPageChanged($event)">
-          </app-pager>
+              (pageChanged)="onPageChanged($event)"
+              #appPager
+              >
+          </app-pager >
+
+          
         </div>
       </div>
       

@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Helpers;
@@ -8,7 +11,9 @@ using Core.Models;
 using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -20,14 +25,16 @@ namespace API.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly DataContext _context;
-        public HolidaysController(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly UserManager<IdentityUser> _userManager;
+        public HolidaysController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> GetAllOffers([FromQuery]HolidayParams holidayParams)
+        public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> GetAllOffers([FromQuery] HolidayParams holidayParams)
         {
             var spec = new HolidaysWithSpecifications(holidayParams, false);
             var countSpec = new HolidaysWithSpecifications(holidayParams, true);
@@ -49,24 +56,31 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteHoliday(int id)
         {
+            if(!await IsAdmin())
+                return Unauthorized("Only Admins can delete offers.");
+
             _unitOfWork.Holiday.Delete(id);
 
             var result = await _unitOfWork.Complete();
 
-            if(result <= 0)
+            if (result <= 0)
                 return BadRequest("Error while deleting.");
 
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateHoliday(int id,Holiday holidayValues)
+        public async Task<ActionResult> UpdateHoliday(int id, Holiday holidayValues)
         {
+            if(!await IsAdmin())
+                return Unauthorized("Only Admins can update offers.");
+
             var holidayFromDb = await _unitOfWork.Holiday.GetHolidayByIdAsync(id);
 
-            if(holidayFromDb != null)
+            if (holidayFromDb != null)
             {
                 holidayFromDb.HotelName = holidayValues.HotelName;
                 holidayFromDb.Description = holidayValues.Description;
@@ -83,19 +97,22 @@ namespace API.Controllers
 
             var result = await _unitOfWork.Complete();
 
-            if(result <= 0)
+            if (result <= 0)
                 return BadRequest("Error while updating.");
 
             return Ok();
 
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<IReadOnlyList<HolidayToReturnDto>>> CreateOffer(Holiday[] offers)
         {
+            if(!await IsAdmin())
+                return Unauthorized("Only Admins can create offers.");
+
             foreach (var offer in offers)
             {
-               _unitOfWork.Holiday.Add(offer); 
+                _unitOfWork.Holiday.Add(offer);
             }
 
             var result = await _unitOfWork.Complete();
@@ -136,20 +153,14 @@ namespace API.Controllers
             return Ok(travelAgencies);
         }
 
-        // ======================================================
+        public async Task<bool> IsAdmin()
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
-        // [HttpGet("Agencies")]
-        // public async Task<ActionResult<TravelAgency>> GetTravelAgencyByIds([FromQuery] int[] listOfIds)
-        // {
-        //     var travelAgenciesByIds = new List<TravelAgency>();
-
-        //     foreach (var id in listOfIds)
-        //     {
-        //         travelAgenciesByIds.Add(await _context.TravelAgencies.FindAsync(id));
-        //     }
-
-        //     return Ok(travelAgenciesByIds);
-        // }
+            return isAdmin;
+        }
 
     }
 }

@@ -23,26 +23,35 @@
         <a class="nav-link" routerLink="/holidays" routerLinkActive="active">Holidays</a>
       </li>
       <li *ngIf="currentUser$ | async" class="nav-item">
-        <a class="nav-link" routerLink="/manage" routerLinkActive="active">Manage</a>
+        <a *ngIf="(currentUser$ | async).isAdmin" class="nav-link" routerLink="/manage" routerLinkActive="active">Manage</a>
       </li>
     </ul>
 
-    <div class="btn-group" dropdown>
+    <ng-container *ngIf="!(currentUser$ | async)">
+      <button type="button" class="btn btn-success mr-2" routerLink="/account/login"> Login </button>
+      <button type="button" class="btn btn-success" routerLink="/account/register"> Register </button>
+    </ng-container>
+    <ng-container *ngIf="(currentUser$ | async)">
+      <h6 class="mr-2 mt-2" *ngIf="currentUser$ | async">{{(currentUser$ | async).email}}</h6>
+      <button type="button" class="btn btn-success mr-2" (click)="logout()"> Logout </button>  
+    </ng-container>
+
+    <!-- <div class="btn-group" dropdown>
       <h5 class="mr-2 mt-2" *ngIf="currentUser$ | async">{{(currentUser$ | async).email}}</h5>
       <button id="button-animated" dropdownToggle type="button" class="btn btn-secondary"
               aria-controls="dropdown-animated">
               <i class="fa fa-user"></i>
       </button>
       <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-animated">
-        <ng-container >
+        <ng-container>
           <li role="menuitem"><a class="dropdown-item" routerLink="/account/login">Login</a></li>
           <li class="divider dropdown-divider"></li>
           <li role="menuitem"><a class="dropdown-item" routerLink="/account/register">Register</a></li>
         </ng-container>
+        <h5 *ngIf="currentUser$ | async">
         <li class="divider dropdown-divider"></li>
-        <li role="menuitem"><a class="dropdown-item" (click)="logout()" >Logout</a></li>
+        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Logout</a></li></h5>
       </ul>
-
-    </div>
+    </div> -->
   </div>
 </nav>

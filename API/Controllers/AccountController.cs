@@ -3,6 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using System;
 using Core.Models;
+using Core.Interfaces;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using API.Dtos;
+using API.Extensions;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -12,26 +20,53 @@ namespace API.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ITokenService _tokenService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ITokenService tokenService, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
+            _tokenService = tokenService;
             _signInManager = signInManager;
             _userManager = userManager;
 
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var isInAdminRole = await _userManager.IsInRoleAsync(user, "Admin");
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Username = user.UserName,
+                Token = _tokenService.CreateToken(user),
+                isAdmin = await _userManager.IsInRoleAsync(user, "Admin")
+            };
+        }
+             
         [HttpPost("Login")]
-        public async Task<ActionResult> Login(User userInfo)
+        public async Task<ActionResult<UserDto>> Login(User userInfo)
         {
             var user = await _userManager.FindByEmailAsync(userInfo.Email);
 
             if (user != null)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(user, userInfo.Password, false, false);
+                var result = await _signInManager.CheckPasswordSignInAsync(user, userInfo.Password, false);
 
-                if(signInResult.Succeeded)
+                if (result.Succeeded)
                 {
-                    return Ok(user);
+                    return new UserDto
+                    {
+                        Email = user.Email,
+                        Username = user.UserName,
+                        Token = _tokenService.CreateToken(user),
+                        isAdmin = await _userManager.IsInRoleAsync(user, "Admin")
+                    };
                 }
             }
 
@@ -41,6 +76,9 @@ namespace API.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<User>> Register(User userInfo)
         {
+            var userExists = await _userManager.FindByEmailAsync(userInfo.Email);
+            if (userExists != null)
+                return BadRequest("Email already in use."); 
 
             var user = new IdentityUser
             {
@@ -50,14 +88,20 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, userInfo.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(user, userInfo.Password, false, false);
+                string errors = "";
+                foreach (var item in result.Errors)
+                    errors += item.Description + " ";
+                
+                return BadRequest(errors);
+            }
 
-                if(signInResult.Succeeded)
-                {
-                    return Ok(user);
-                }
+            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, userInfo.Password, false);
+
+            if (signInResult.Succeeded)
+            {
+                 return Ok(user);
             }
 
             return BadRequest("Failed on register.");

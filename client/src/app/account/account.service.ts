@@ -18,9 +18,13 @@ export class AccountService {
 
 
   loadCurrentUser(token: string) {
-    return this.http.get(this.baseUrl + 'account').pipe(
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get(this.baseUrl + 'account', {headers}).pipe(
       map((user: IUser) => {
         if (user) {
+          localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
       })
@@ -31,6 +35,8 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'account/login', values).pipe(
       map((user: IUser) => {
         if (user) {
+          console.log(user);
+          localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
       })
@@ -49,6 +55,7 @@ export class AccountService {
   }
 
   logout() {
+    localStorage.removeItem('token');
     this.currentUserSource.next(null);
     this.router.navigateByUrl('/holidays');
   }
