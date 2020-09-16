@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       this.toastr.success('Logged in succesfully');
     }, error => {
       this.toastr.error('Wrong password or email');
-      console.log(error);
     });
   }
 

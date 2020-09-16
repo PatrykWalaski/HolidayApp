@@ -56,6 +56,7 @@ namespace Core.Specifications
 
             // Sort Type
 
+        AddOrderBy(x => x.HotelName);
         if(!isForCount)
         {
             if(!string.IsNullOrEmpty(holidayParams.Sort))
@@ -73,6 +74,12 @@ namespace Core.Specifications
                         break;
                     case "durationDesc":
                         AddOrderByDescending(x => x.DurationOfStay);
+                        break;
+                    case "byIdAsc":
+                        AddOrderBy(x => x.Id);
+                        break;
+                    case "byIdDesc":
+                        AddOrderByDescending(x => x.Id);
                         break;
                     default: 
                         AddOrderBy(x => x.HotelName);

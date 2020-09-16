@@ -1,9 +1,14 @@
-<div class="container mt-3">
+<div class="container mt-3 mb-5">
   <div class="row">
     <section class="col-3">
-    <button type="button" class="btn btn-primary block mt-3" (click)="onSearch(fromPrice,toPrice,fromDuration,toDuration)" > Search </button>
+    <button  type="button" class="btn btn-primary block mt-3" (click)="onSearch(fromPrice,toPrice,fromDuration,toDuration)" > Search </button>
+    <button 
+      *ngIf="filterChanged" type="button" 
+      class="btn btn-danger block mt-2" 
+      (click)="onReset()" > Reset 
+    </button>
       <h5 class="text ml-3 my-3" >Sorting</h5>    
-        <select class="custom-select" (change)="onSortSelected($event.target.value)">
+        <select class="custom-select" (change)="onSortSelected($event.target.value)" id="sortId">
         <option *ngFor="let sort of sortOptions" [value]="sort.value">
           {{ sort.name }}
         </option>
@@ -12,20 +17,20 @@
       <h5 class="text ml-3 my-3">Price</h5>
       <div class="form-group row justify-content-center"  >
         <div class="col-6">
-           <input class="form-control" type="text" placeholder="From" #fromPrice> 
+           <input class="form-control" type="text" placeholder="From" id="fromPrice" #fromPrice> 
         </div>
         <div class="col-6">
-          <input class="form-control" type="text" placeholder="To" #toPrice>
+          <input class="form-control" type="text" placeholder="To" id="toPrice" #toPrice>
         </div>
       </div>
       <hr>
       <h5 class="text ml-3 my-3">Duration Of Stay</h5>
       <div class="form-group row justify-content-center">
         <div class="col-6">
-           <input class="form-control" type="text" placeholder="From" #fromDuration> 
+           <input class="form-control" type="text" placeholder="From" id="fromDuration" #fromDuration> 
         </div>
         <div class="col-6">
-          <input class="form-control" type="text" placeholder="To" #toDuration>
+          <input class="form-control" type="text" placeholder="To" id="toDuration" #toDuration>
         </div>
       </div>
       <hr>

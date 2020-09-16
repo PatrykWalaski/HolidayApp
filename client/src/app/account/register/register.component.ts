@@ -40,7 +40,6 @@ export class RegisterComponent implements OnInit {
       this.toastr.success('Account has been created.');
     }, error => {
       this.toastr.error(error.error);
-      console.log(error);
     });
   }
 }

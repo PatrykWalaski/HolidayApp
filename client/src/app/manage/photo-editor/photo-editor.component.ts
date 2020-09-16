@@ -62,7 +62,7 @@ export class PhotoEditorComponent implements OnInit {
          this.photos.splice(this.photos.findIndex(p => p.id === photoId), 1);
          this.toastr.success('Photo has been deleted.');
       }, error => {
-         this.toastr.error('Failed to delete the photo');
+         this.toastr.error(error.error);
       });
   }
 

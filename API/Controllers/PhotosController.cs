@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace DatingApp.API.Controllers
 {
+    [Authorize]
     [Route("api/holidays/{holidayId}/photos")]
     [ApiController]
     public class PhotosController : ControllerBase
@@ -55,6 +56,9 @@ namespace DatingApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPhotoForHoliday(int holidayId, [FromForm]PhotoForCreationDto photoForCreationDto)
         {
+            if(!await IsAdmin())
+                return Unauthorized("Only Admins can add photos.");
+
             var holidayFromRepo = await _unitOfWork.Holiday.GetHolidayByIdAsync(holidayId);
             if(holidayFromRepo == null)
                 return BadRequest("There is no holiday with specified id.");
@@ -99,6 +103,8 @@ namespace DatingApp.API.Controllers
         [HttpPost("{id}/setMain")]
         public async Task<IActionResult> SetMainPhoto(int holidayId, int id)
         {
+            if(!await IsAdmin())
+                return Unauthorized("Only Admins can change main photos.");
 
             var holidayFromRepo = await _unitOfWork.Holiday.GetHolidayByIdAsync(holidayId);
             if(holidayFromRepo == null)
@@ -128,6 +134,9 @@ namespace DatingApp.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int holidayId, int id)
         {
+            if(!await IsAdmin())
+                return Unauthorized("Only Admins can delete photos.");
+
             var holidayFromRepo = await _unitOfWork.Holiday.GetHolidayByIdAsync(holidayId);
             if(holidayFromRepo == null)
                 return BadRequest("There is no holiday with specified id.");
@@ -138,8 +147,8 @@ namespace DatingApp.API.Controllers
         
             var photoFromRepo = await _unitOfWork.Photo.GetByIdAsync(id);
 
-            //if(photoFromRepo.IsMain)
-            //    return BadRequest("You cannot delete ur main photo");
+            if(photoFromRepo.IsMain)
+               return BadRequest("You cannot delete ur main photo");
 
             if(photoFromRepo.PublicID != null)
             {
@@ -156,6 +165,15 @@ namespace DatingApp.API.Controllers
                 return Ok();
 
             return BadRequest("Failed to delete the photo");
+        }
+
+        private async Task<bool> IsAdmin()
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var user = await _userManager.FindByEmailAsync(email);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+            return isAdmin;
         }
 
     }

@@ -43,8 +43,6 @@ export class HolidaysOfferComponent implements OnInit {
   }
 
   setMainPhotoUrl(){
-    console.log(this.holiday);
-    console.log(this.holiday.photos.length);
     if (this.holiday.photos.length > 0)
     {
       const currentMainPhoto = this.holiday.photos.find(p => p.isMain === true);
@@ -52,7 +50,6 @@ export class HolidaysOfferComponent implements OnInit {
       {
         this.mainPhotoUrl = currentMainPhoto.url;
       }
-      console.log(this.mainPhotoUrl);
     }
   }
 }

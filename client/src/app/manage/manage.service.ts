@@ -15,11 +15,12 @@ baseUrl = 'https://localhost:5001/api/';
 
 constructor(private http: HttpClient) { }
 
-getHolidays(pageNumber: number, pageSize: number) {
+getHolidays(pageNumber: number, pageSize: number, sort: string) {
   let params = new HttpParams();
 
   params = params.append('pageIndex', pageNumber.toString());
   params = params.append('pageSize', pageSize.toString());
+  params = params.append('sort', sort);
 
   return this.http.get<IPagination>(this.baseUrl + 'holidays', { observe: 'response', params})
     .pipe( // inside pipe methods we can chain as many rxjs operators as we want
@@ -46,18 +47,12 @@ getMealPlans(){
 }
 
 createHoliday(offer: any){
-  return this.http.post(this.baseUrl + 'holidays', offer).pipe(
-    map((user: IHoliday) => {
-      console.log("test");
-    }));
+  return this.http.post<IHoliday[]>(this.baseUrl + 'holidays', offer);
 }
 
 updateHoliday(id: number, offer: any){
-  console.log(id);
-  console.log(offer);
   return this.http.put(this.baseUrl + 'holidays/' + id, offer).pipe(
     map((user: IHoliday) => {
-      console.log("test");
     }));
 }
 

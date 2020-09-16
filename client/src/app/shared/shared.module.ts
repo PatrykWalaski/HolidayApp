@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {PaginationModule } from 'ngx-bootstrap/pagination';
 import {PagerComponent} from './components/pager/pager.component';
+import { NgxGalleryModule } from 'ngx-gallery-9';
 
 @NgModule({
   declarations: [PagerComponent],
@@ -14,7 +15,8 @@ import {PagerComponent} from './components/pager/pager.component';
     CarouselModule.forRoot(),
     BsDropdownModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxGalleryModule
   ],
   exports: [
     PaginationModule,
@@ -22,7 +24,8 @@ import {PagerComponent} from './components/pager/pager.component';
     CarouselModule,
     BsDropdownModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxGalleryModule
   ]
 })
 export class SharedModule { }

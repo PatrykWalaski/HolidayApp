@@ -1,6 +1,7 @@
-<div class="container">
-    <div><img src="./assets/images/1920x1080_placeholder.png" class="mainPic"></div>
-
+<div class="container mb-5">
+    <div *ngIf="holiday.photos.length >= 1" class="d-flex justify-content-center">
+    <ngx-gallery  [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+    </div>
 <div class="col-12 center mt-3" *ngIf="holiday != null">
     <div class="row ">
         <div class="col-9 ml-4">
@@ -20,5 +21,5 @@
             <h6> per person</h6>
         </div>
     </div>
-</div>
+</div >
 </div>

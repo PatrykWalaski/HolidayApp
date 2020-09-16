@@ -33,6 +33,8 @@ export class HolidaysComponent implements OnInit {
     { name: 'Duration: Short To Long', value: 'durationAsc' },
     { name: 'Duration: Long To Short', value: 'durationDesc' },
   ];
+  filterChanged: boolean;
+
   constructor(private holidaysService: HolidaysService) {}
 
   ngOnInit(): void {
@@ -63,6 +65,7 @@ export class HolidaysComponent implements OnInit {
 
   onSearch(minPrice, maxPrice, minDuration, maxDuration)
   {
+      this.filterChanged = true;
       this.holidayParams.minPrice = minPrice.value;
       this.holidayParams.maxPrice = maxPrice.value;
       this.holidayParams.minDuration = minDuration.value;
@@ -73,6 +76,21 @@ export class HolidaysComponent implements OnInit {
         this.child.setPage(1);
       }
       this.getHolidays();
+  }
+
+  onReset()
+  {
+    this.resetInputs();
+    this.filterChanged = false;
+    this.currentlySelectedMeals = [];
+    this.currentlySelectedAgencies = [];
+    this.currentlySelectedCountries = [];
+    this.holidayParams = new HolidayParams();
+    if (this.child)
+      {
+        this.child.setPage(1);
+      }
+    this.getHolidays();
   }
 
   onMealPlanSelected(mealPlan: string): void {
@@ -139,7 +157,7 @@ export class HolidaysComponent implements OnInit {
   }
 
   onSortSelected(sort: string): void {
-    console.log(sort);
+    this.filterChanged = true;
     this.holidayParams.sortSelected = sort;
     this.getHolidays();
   }
@@ -191,6 +209,14 @@ export class HolidaysComponent implements OnInit {
     return new Array(5 - stars);
   }
 
+  resetInputs()
+  {
+    (document.getElementById('fromPrice') as HTMLInputElement).value = '';
+    (document.getElementById('toPrice') as HTMLInputElement).value = '';
+    (document.getElementById('fromDuration') as HTMLInputElement).value = '';
+    (document.getElementById('toDuration') as HTMLInputElement).value = '';
+    (document.getElementById('sortId') as HTMLOptionElement).value = 'name';
+  }
 
   // ----------------- GET ARRAYS FROM DATABASE -----------------
 

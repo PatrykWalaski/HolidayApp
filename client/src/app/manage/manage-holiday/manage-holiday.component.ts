@@ -44,24 +44,19 @@ export class ManageHolidayComponent implements OnInit {
 
     this.manageService.getCountries().subscribe(response => {
       this.countries = response;
+      this.manageService.getMealPlans().subscribe(response => {
+        this.mealPlans = response;
+        this.manageService.getTravelAgencies().subscribe(response => {
+          this.travelAgencies = response;
+          this.getHolidayFormValues();
+        });
+      });
     });
-
-    this.manageService.getMealPlans().subscribe(response => {
-      this.mealPlans = response;
-    });
-
-    this.manageService.getTravelAgencies().subscribe(response => {
-      this.travelAgencies = response;
-      this.getHolidayFormValues();
-    });
-
   }
 
 
   updateHoliday(): void{
-    console.log('click');
     this.manageService.updateHoliday(this.id, this.convertToMatchingTypes()).subscribe( response => {
-      console.log(response);
       this.toastr.success('Offer updated.');
       this.router.navigateByUrl('/manage');
     }, error => {
@@ -72,9 +67,8 @@ export class ManageHolidayComponent implements OnInit {
 
   createHoliday(): void{
     this.manageService.createHoliday(new Array(this.convertToMatchingTypes())).subscribe(response => {
-      console.log(this.convertToMatchingTypes());
       this.toastr.success('Offer created.');
-      this.router.navigateByUrl('/manage');
+      this.router.navigateByUrl('/manage/holiday/' + response[response.length - 1].id);
     }, error => {
       this.toastr.error('Failed while creating an offer.');
       console.log(error);
@@ -102,7 +96,6 @@ export class ManageHolidayComponent implements OnInit {
     if (this.id > 0){
       this.manageService.getHoliday(this.id).subscribe(response => {
         this.holiday = response;
-        console.log(this.holiday);
         this.patchValues();
       }, error => {
         console.log(error);

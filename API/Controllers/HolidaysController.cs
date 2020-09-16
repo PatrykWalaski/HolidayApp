@@ -153,7 +153,7 @@ namespace API.Controllers
             return Ok(travelAgencies);
         }
 
-        public async Task<bool> IsAdmin()
+        private async Task<bool> IsAdmin()
         {
             var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
             var user = await _userManager.FindByEmailAsync(email);

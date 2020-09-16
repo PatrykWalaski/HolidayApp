@@ -6,7 +6,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: 'holidays', pathMatch: 'full'},
   { path: 'holidays', loadChildren: () => import('./holidays/holidays.module').then(mod => mod.HolidaysModule) },
   { path: 'manage', canActivate: [AuthGuard],
     loadChildren: () => import('./manage/manage.module').then(mod => mod.ManageModule) },

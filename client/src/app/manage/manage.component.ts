@@ -16,6 +16,7 @@ export class ManageComponent implements OnInit {
 
   pageNumber = 1;
   pageSize = 20;
+  sort = 'byIdAsc';
   totalCount: number;
   constructor(private manageService: ManageService, private router: Router, private toastr: ToastrService) { }
 
@@ -23,8 +24,19 @@ export class ManageComponent implements OnInit {
     this.loadHolidays();
   }
 
+  changeSort(){
+    if (this.sort === 'byIdAsc')
+    {
+      this.sort = 'byIdDesc';
+    } else
+    {
+      this.sort = 'byIdAsc';
+    }
+    this.loadHolidays();
+  }
+
   loadHolidays(){
-    this.manageService.getHolidays(this.pageNumber, this.pageSize).subscribe( response => {
+    this.manageService.getHolidays(this.pageNumber, this.pageSize, this.sort).subscribe( response => {
       this.holidays = response.data;
       this.totalCount = response.count;
       this.pageNumber = response.pageIndex;
@@ -32,7 +44,6 @@ export class ManageComponent implements OnInit {
     }, error => {
       console.log(error);
     });
-    console.log(this.holidays);
   }
 
   onPageChanged(event: any){
@@ -40,7 +51,7 @@ export class ManageComponent implements OnInit {
     this.loadHolidays();
   }
 
-  deleteHoliday(id: number){  
+  deleteHoliday(id: number){ 
     event.stopPropagation();
     this.manageService.deleteHoliday(id).subscribe( response => {
       console.log('deleted');
