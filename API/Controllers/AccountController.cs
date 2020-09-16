@@ -71,7 +71,7 @@ namespace API.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(User userInfo)
+        public async Task<ActionResult<UserDto>> Register(User userInfo)
         {
             var userExists = await _userManager.FindByEmailAsync(userInfo.Email);
             if (userExists != null)
@@ -98,7 +98,13 @@ namespace API.Controllers
 
             if (signInResult.Succeeded)
             {
-                 return Ok(user);
+                 return new UserDto
+                    {
+                        Email = user.Email,
+                        Username = user.UserName,
+                        Token = _tokenService.CreateToken(user),
+                        isAdmin = await _userManager.IsInRoleAsync(user, "Admin")
+                    };
             }
 
             return BadRequest("Failed on register.");

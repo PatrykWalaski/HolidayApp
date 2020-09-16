@@ -4,17 +4,19 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { IUser } from '../shared/models/user';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
 
   private currentUserSource: ReplaySubject<IUser> = new ReplaySubject<IUser>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
 
   loadCurrentUser(token: string) {
@@ -54,8 +56,9 @@ export class AccountService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.currentUserSource.next(null);
-    this.router.navigateByUrl('/holidays');
+      localStorage.removeItem('token');
+      this.toastr.warning('Logged out successfully');
+      this.currentUserSource.next(null);
+      this.router.navigateByUrl('/holidays');
   }
 }

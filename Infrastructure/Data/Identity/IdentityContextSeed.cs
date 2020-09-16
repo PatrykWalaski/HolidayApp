@@ -17,8 +17,8 @@ namespace Infrastructure.Data.Identity
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
             }
 
-            if(!userManager.Users.Any())
-            {
+            if(await userManager.FindByEmailAsync("admin@gmail.com") == null){
+                
                 var adminUser = new IdentityUser
                 {
                     UserName = "admin@gmail.com",
@@ -31,8 +31,8 @@ namespace Infrastructure.Data.Identity
                     Email = "bob@gmail.com"
                 };
 
-                await userManager.CreateAsync(adminUser, "Pa$$w0rd");
-                await userManager.CreateAsync(user, "Pa$$w0rd");
+                var resultAdminCreation = await userManager.CreateAsync(adminUser, "Pa$$w0rd");
+                var resultUserCreation = await userManager.CreateAsync(user, "Pa$$w0rd");
 
                 var createdAdmin = await userManager.FindByEmailAsync(adminUser.Email);
                 await userManager.AddToRoleAsync(createdAdmin, "Admin");

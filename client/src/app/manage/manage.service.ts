@@ -6,12 +6,13 @@ import { ITravelAgency } from '../shared/models/travelAgency';
 import { IMealPlan } from '../shared/models/mealPlan';
 import { map } from 'rxjs/operators';
 import { IPagination } from '../shared/models/pagination';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManageService {
-baseUrl = 'https://localhost:5001/api/';
+baseUrl = environment.apiUrl;
 
 constructor(private http: HttpClient) { }
 

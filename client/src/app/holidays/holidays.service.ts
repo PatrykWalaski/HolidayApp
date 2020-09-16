@@ -7,12 +7,13 @@ import { ICountry } from '../shared/models/country';
 import { IPagination } from '../shared/models/pagination';
 import { IMealPlan } from '../shared/models/mealPlan';
 import { ITravelAgency } from '../shared/models/travelAgency';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HolidaysService{
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
 
 constructor(private http: HttpClient) { }
 

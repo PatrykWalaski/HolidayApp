@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Models;
@@ -13,12 +14,15 @@ namespace Infrastructure.Data
     {
         public static async Task SeedAsync(DataContext context, ILoggerFactory loggerFactory)
         {
+
             try
             {
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
                 if (!context.Countries.Any())
                 {
                     var data =
-                        File.ReadAllText("../Infrastructure/Data/SeedData/countries.json");
+                        File.ReadAllText(path + @"/Data/SeedData/countries.json");
 
                     var list = JsonSerializer.Deserialize<List<Country>>(data);
 
@@ -33,7 +37,7 @@ namespace Infrastructure.Data
                 if (!context.MealPlans.Any())
                 {
                     var data =
-                        File.ReadAllText("../Infrastructure/Data/SeedData/meals.json");
+                        File.ReadAllText(path + @"/Data/SeedData/meals.json");
 
                     var list = JsonSerializer.Deserialize<List<MealPlan>>(data);
 
@@ -48,7 +52,7 @@ namespace Infrastructure.Data
                 if (!context.TravelAgencies.Any())
                 {
                     var data =
-                        File.ReadAllText("../Infrastructure/Data/SeedData/agencies.json");
+                        File.ReadAllText(path + @"/Data/SeedData/agencies.json");
 
                     var list = JsonSerializer.Deserialize<List<TravelAgency>>(data);
 
@@ -63,7 +67,7 @@ namespace Infrastructure.Data
                 if (!context.Holidays.Any())
                 {
                     var data =
-                        File.ReadAllText("../Infrastructure/Data/SeedData/holidays.json");
+                        File.ReadAllText(path + @"/Data/SeedData/holidays.json");
 
                     var list = JsonSerializer.Deserialize<List<Holiday>>(data);
 

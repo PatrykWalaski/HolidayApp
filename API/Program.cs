@@ -26,7 +26,7 @@ namespace API
                 var services = scope.ServiceProvider;
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try 
-                {
+                {                  
                     var context = services.GetRequiredService<DataContext>();
                     await context.Database.MigrateAsync();
                     await DataContextSeed.SeedAsync(context, loggerFactory);
