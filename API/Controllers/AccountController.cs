@@ -21,15 +21,12 @@ namespace API.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ITokenService _tokenService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ITokenService tokenService, IHttpContextAccessor httpContextAccessor)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ITokenService tokenService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _tokenService = tokenService;
             _signInManager = signInManager;
             _userManager = userManager;
-
         }
 
         [Authorize]

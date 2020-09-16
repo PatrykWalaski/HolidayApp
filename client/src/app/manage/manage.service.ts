@@ -65,10 +65,12 @@ deleteHoliday(id: number){
   return this.http.delete(this.baseUrl + 'holidays/' + id);
 }
 
-setTokenHeader(){
-  let headers = new HttpHeaders();
-  headers = headers.set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
-  return headers;
+deletePhoto(holidayId: number, photoId: number){
+  return this.http.delete(this.baseUrl + 'holidays/' + holidayId + '/photos/' + photoId);
+}
+
+setMainPhoto(holidayId: number, photoId: number){
+  return this.http.post(this.baseUrl + 'holidays/' + holidayId + '/photos/' + photoId + '/setMain', {});
 }
 }

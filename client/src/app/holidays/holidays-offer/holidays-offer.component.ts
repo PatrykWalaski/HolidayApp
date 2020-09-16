@@ -9,10 +9,11 @@ import { IHoliday } from '../../shared/models/holiday';
 })
 export class HolidaysOfferComponent implements OnInit {
   @Input() holiday: IHoliday;
-
+  mainPhotoUrl: string;
   constructor() { }
 
   ngOnInit() {
+    this.setMainPhotoUrl();
   }
 
   handleDisplayName(displayName: string)
@@ -39,5 +40,19 @@ export class HolidaysOfferComponent implements OnInit {
 
   getArraySizeForEmptyStars(stars: number){
     return new Array(5 - stars);
+  }
+
+  setMainPhotoUrl(){
+    console.log(this.holiday);
+    console.log(this.holiday.photos.length);
+    if (this.holiday.photos.length > 0)
+    {
+      const currentMainPhoto = this.holiday.photos.find(p => p.isMain === true);
+      if (currentMainPhoto)
+      {
+        this.mainPhotoUrl = currentMainPhoto.url;
+      }
+      console.log(this.mainPhotoUrl);
+    }
   }
 }

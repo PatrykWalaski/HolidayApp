@@ -13,6 +13,7 @@ namespace Core.Specifications
                 AddInclude(x => x.TravelAgency);
                 AddInclude(x => x.MealPlan);
                 AddInclude(x => x.Country);
+                AddInclude(x => x.Photos);
                 ApplyPaging(holidayParams.PageSize * (holidayParams.PageIndex - 1), holidayParams.PageSize);
             }
             

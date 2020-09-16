@@ -118,9 +118,9 @@ export class ManageHolidayComponent implements OnInit {
         durationOfStay: this.holiday.durationOfStay,
         stars: this.holiday.stars,
         price: this.holiday.price,
-        mealPlanId: this.mealPlans.find(x => this.holiday.mealPlan).id,
-        travelAgencyId: this.travelAgencies.find(x => this.holiday.travelAgency).id,
-        countryId:  this.countries.find(x => this.holiday.country).id,
+        mealPlanId: this.mealPlans.find(x => x.name === this.holiday.mealPlan).id,
+        travelAgencyId: this.travelAgencies.find(x => x.name === this.holiday.travelAgency).id,
+        countryId:  this.countries.find(x => x.name === this.holiday.country).id,
     });
   }
 

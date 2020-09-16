@@ -27,6 +27,7 @@ namespace Infrastructure.Data
             return await _context.Holidays.Include(x => x.MealPlan)
                                         .Include(x => x.TravelAgency)
                                         .Include(x => x.Country)
+                                        .Include(x => x.Photos)
                                         .FirstAsync(x => x.Id == id);
         }
 
@@ -35,6 +36,7 @@ namespace Infrastructure.Data
             var offers = await _context.Holidays.Include(x => x.MealPlan)
                                         .Include(x => x.TravelAgency)
                                         .Include(x => x.Country)
+                                        .Include(x => x.Photos)
                                         .ToListAsync();
 
             return offers;

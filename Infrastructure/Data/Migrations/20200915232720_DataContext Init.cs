@@ -90,17 +90,17 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PhotoUrl = table.Column<string>(nullable: true),
-                    isMain = table.Column<bool>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
+                    IsMain = table.Column<bool>(nullable: false),
                     PublicID = table.Column<string>(nullable: true),
-                    OfferId = table.Column<int>(nullable: false)
+                    HolidayId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photos_Holidays_OfferId",
-                        column: x => x.OfferId,
+                        name: "FK_Photos_Holidays_HolidayId",
+                        column: x => x.HolidayId,
                         principalTable: "Holidays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -122,9 +122,9 @@ namespace Infrastructure.Data.Migrations
                 column: "TravelAgencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photos_OfferId",
+                name: "IX_Photos_HolidayId",
                 table: "Photos",
-                column: "OfferId");
+                column: "HolidayId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

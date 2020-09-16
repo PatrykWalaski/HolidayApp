@@ -1,3 +1,5 @@
+import { Photo } from './photo';
+
 export interface IHoliday {
     id: number;
     hotelName: string;
@@ -9,4 +11,5 @@ export interface IHoliday {
     country: string;
     mealPlan: string;
     travelAgency: string;
+    photos: Photo[];
 }

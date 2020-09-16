@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using DatingApp.API.Dtos;
+
 namespace API.Dtos
 {
     public class HolidayToReturnDto
@@ -12,5 +15,7 @@ namespace API.Dtos
         public string Country { get; set; }
         public string MealPlan { get; set; }
         public string TravelAgency { get; set; }
+        public ICollection<PhotosForDetailedDto> Photos { get; set; }
+
     }
 }

@@ -105,21 +105,21 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("OfferId")
+                    b.Property<int>("HolidayId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PublicID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isMain")
-                        .HasColumnType("bit");
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OfferId");
+                    b.HasIndex("HolidayId");
 
                     b.ToTable("Photos");
                 });
@@ -162,9 +162,9 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Models.Photo", b =>
                 {
-                    b.HasOne("Core.Models.Holiday", "Offer")
+                    b.HasOne("Core.Models.Holiday", "Holiday")
                         .WithMany("Photos")
-                        .HasForeignKey("OfferId")
+                        .HasForeignKey("HolidayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

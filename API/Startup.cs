@@ -41,7 +41,7 @@ namespace API
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddAutoMapper(typeof(MappingProfiles));
-
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddScoped<ITokenService, TokenService>();
 
             var builder = services.AddIdentityCore<IdentityUser>();

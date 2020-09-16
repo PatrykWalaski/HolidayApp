@@ -24,8 +24,8 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly DataContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        
         public HolidaysController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;

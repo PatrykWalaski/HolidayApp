@@ -11,6 +11,8 @@ namespace Core.Interfaces
          Task<IReadOnlyList<MealPlan>> GetMealPlansAsync();
          Task<IReadOnlyList<TravelAgency>> GetTravelAgenciesAsync();
          Task<IReadOnlyList<Country>> GetCountriesAsync();
+         
+
 
     }
 }

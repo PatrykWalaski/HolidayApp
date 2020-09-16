@@ -1,7 +1,8 @@
 <div class="row" routerLink="/holidays/{{holiday.id}}">
   <div class="col-4">
       <div class="holiday-img">
-          <img src="./assets/images/1920x1080_placeholder.png">
+          <img *ngIf="holiday.photos.length === 0" src="./assets/images/1920x1080_placeholder.png">
+          <img *ngIf="holiday.photos.length >= 0" src="{{mainPhotoUrl}}">
       </div>
   </div>
   <div class="col-8">

@@ -32,6 +32,7 @@ export class ManageComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+    console.log(this.holidays);
   }
 
   onPageChanged(event: any){
