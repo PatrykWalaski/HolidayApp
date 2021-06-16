@@ -45,7 +45,31 @@ namespace API.Controllers
                 isAdmin = await _userManager.IsInRoleAsync(user, "Admin")
             };
         }
-             
+
+        [HttpPost("LoginTest")]
+        public async Task<ActionResult<UserDto>> LoginTest2(User userInfo)
+        {
+            var user = await _userManager.FindByEmailAsync(userInfo.Email);
+
+            if (user != null)
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, userInfo.Password, false);
+
+                if (result.Succeeded)
+                {
+                    return new UserDto
+                    {
+                        Email = user.Email,
+                        Username = user.UserName,
+                        Token = _tokenService.CreateToken(user),
+                        isAdmin = await _userManager.IsInRoleAsync(user, "Admin")
+                    };
+                }
+            }
+
+            return Unauthorized("Failed while login.");
+        }
+
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(User userInfo)
         {
